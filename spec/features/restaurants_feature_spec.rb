@@ -57,13 +57,18 @@ feature 'restaurants' do
 
     before { Restaurant.create name: 'KFC' }
 
-    scenario 'let a user edit a restaurant' do
+    scenario 'let a user edit a restaurant they created' do
       sign_up
       visit '/restaurants'
-      click_link 'Edit KFC'
-      fill_in 'Name', with: 'Kentucky Fried Chicken'
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'McDonalds'
+      click_button 'Create Restaurant'
+      visit '/restaurants'
+      expect(page).to have_content('McDonalds')
+      click_link 'Edit McDonalds'
+      fill_in 'Name', with: 'MaccyD'
       click_button 'Update Restaurant'
-      expect(page).to have_content 'Kentucky Fried Chicken'
+      expect(page).to have_content 'MaccyD'
       expect(current_path).to eq '/restaurants'
     end
 
@@ -71,12 +76,12 @@ feature 'restaurants' do
       sign_up
       visit '/restaurants'
       click_link 'Add a restaurant'
-      fill_in 'Name', with: 'KFC'
+      fill_in 'Name', with: 'Burger King'
       click_button 'Create Restaurant'
       click_link 'Sign out'
       sign_up(email: 'different@user.com')
       visit '/restaurants'
-      expect(page).not_to have_link 'Edit KFC'
+      expect(page).not_to have_link 'Edit Burger King'
     end
   end
 
