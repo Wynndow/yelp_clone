@@ -89,12 +89,23 @@ feature 'restaurants' do
 
     before { Restaurant.create name: 'KFC' }
 
-    scenario 'removes a restaurant when a user clicks a delete link' do
+    scenario 'can be deleted by a user who created the restaurant' do
+      sign_up
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'Burger King'
+      click_button 'Create Restaurant'
+      click_link 'Sign out'
+      sign_up(email: 'different@user.com')
+      visit '/restaurants'
+      expect(page).not_to have_link 'Delete Burger King'
+    end
+
+    scenario 'does not remove a restaurant if not the users' do
       sign_up
       visit 'restaurants'
-      click_link 'Delete KFC'
-      expect(page).not_to have_content 'KFC'
-      expect(page).to have_content 'Restaurant deleted successfully'
+      expect(page).not_to have_link 'Delete KFC'
+      expect(page).to have_content 'Review KFC'
     end
 
     scenario 'restaurants are removed if associated user is deleted' do
