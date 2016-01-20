@@ -16,12 +16,7 @@ feature 'User can sign in and out' do
 
   context 'user signed in and on the home page' do
     before do
-      visit '/'
-      click_link('Sign up')
-      fill_in('Email', with: 'test@example.com')
-      fill_in('Password', with: 'testtest')
-      fill_in('Password confirmation', with: 'testtest')
-      click_button('Sign up')
+      sign_up
     end
 
     it 'should see \'sign out\' link' do
