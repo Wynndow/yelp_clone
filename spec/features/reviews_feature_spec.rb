@@ -42,6 +42,18 @@ feature 'reviews' do
       click_link 'Delete KFC'
       expect(Review.first).not_to have_content('so so')
     end
+
+    scenario 'user can only delete their own reviews' do
+      visit '/restaurants'
+      click_link 'Review KFC'
+      fill_in "Thoughts", with: "so so"
+      select '3', from: 'Rating'
+      click_button 'Leave Review'
+      click_link('Delete review')
+      expect(page).not_to have_content('so so')
+      expect(page).to have_content('Review deleted successfully')
+
+    end
   end
 
 end
