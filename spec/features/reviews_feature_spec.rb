@@ -17,6 +17,13 @@ feature 'reviews' do
       expect(page).to have_content('so so')
     end
 
+    scenario 'prevents users from leaving a review if not logged in' do
+      click_link('Sign out')
+      visit '/restaurants'
+      click_link('Review KFC')
+      expect(page).to have_content('You need to sign in or sign up before continuing.')
+    end
+
     scenario 'only allows one review per restaurant per user' do
       visit '/restaurants'
       click_link 'Review KFC'
