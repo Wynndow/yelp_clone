@@ -24,4 +24,8 @@ class User < ActiveRecord::Base
     restaurant = restaurants.build(attributes)
   end
 
+  def is_author_of?(review)
+    reviews.include?(review)
+  end
+
 end

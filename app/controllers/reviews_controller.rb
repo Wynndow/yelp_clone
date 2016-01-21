@@ -25,7 +25,7 @@ class ReviewsController < ApplicationController
 
   def destroy
     @review = Review.find(params[:id])
-    if current_user.reviews.include? @review
+    if current_user.is_author_of?(@review)
       @review.destroy
       flash[:notice] = 'Review deleted successfully'
     else
