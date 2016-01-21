@@ -43,7 +43,7 @@ feature 'reviews' do
       expect(Review.first).not_to have_content('so so')
     end
 
-    scenario 'user can only delete their own reviews' do
+    scenario 'user can delete their own reviews' do
       visit '/restaurants'
       click_link 'Review KFC'
       fill_in "Thoughts", with: "so so"
@@ -52,7 +52,20 @@ feature 'reviews' do
       click_link('Delete review')
       expect(page).not_to have_content('so so')
       expect(page).to have_content('Review deleted successfully')
+      expect(Review.first).to eq(nil)
+    end
 
+    scenario 'user can not delete a different users reviews' do
+      visit '/restaurants'
+      click_link 'Review KFC'
+      fill_in "Thoughts", with: "so so"
+      select '3', from: 'Rating'
+      click_button 'Leave Review'
+      click_link('Sign out')
+      sign_up(email: 'different@user.com')
+      click_link('Delete review')
+      expect(page).not_to have_content('Review deleted successfully')
+      expect(page).to have_content('Sorry, you can not delete other users reviews')
     end
   end
 
