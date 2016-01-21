@@ -20,4 +20,8 @@ class User < ActiveRecord::Base
     reviewed_restaurants.include?(restaurant)
   end
 
+  def build_restaurant(attributes = {})
+    restaurant = restaurants.build(attributes)
+  end
+
 end
