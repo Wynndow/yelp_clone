@@ -9,6 +9,7 @@
     %h4
       Reviews for
       = restaurant.name
+      %h4 Average rating: #{ restaurant.average_rating }
       - if restaurant.reviews.any?
         %ul
           - restaurant.reviews.each do |review|

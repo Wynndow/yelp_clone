@@ -37,6 +37,14 @@ feature 'reviews' do
       click_button 'Leave Review'
       expect(page).to have_content("Sorry, you have already left a review for that restaurant.")
     end
+
+    scenario 'displays an average rating for all reviews' do
+      leave_review('So so', '3')
+      click_link('Sign out')
+      sign_up(email: 'different@user.com')
+      leave_review('Great', '5')
+      expect(page).to have_content("Average rating: 4")
+    end
   end
 
   context 'deleting a review' do
