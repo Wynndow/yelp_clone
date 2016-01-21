@@ -17,6 +17,7 @@
               = review.thoughts
               %strong= review.rating
               \/5
+              %h5 Left #{ time_created(review) }
               = link_to 'Delete review', review_path(review), method: :delete
       - else
         %p No reviews

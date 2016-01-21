@@ -39,11 +39,19 @@ feature 'reviews' do
     end
 
     scenario 'displays an average rating for all reviews' do
-      leave_review('So so', '3')
+      leave_review('So so', 3)
       click_link('Sign out')
       sign_up(email: 'different@user.com')
       leave_review('Great', '5')
       expect(page).to have_content("Average rating: ★★★★☆")
+    end
+
+    scenario 'displays the time a rating was left, relative to now' do
+      Timecop.travel(-60 * 60) do
+        leave_review('What???', 3)
+      end
+      visit('/restaurants')
+      expect(page).to have_content('Left about 1 hour ago')
     end
   end
 
