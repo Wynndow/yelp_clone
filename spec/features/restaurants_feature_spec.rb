@@ -26,10 +26,7 @@ feature 'restaurants' do
   context 'creating restaurants' do
     scenario 'prompts user to fill out a form, then displays the new restaurant' do
       sign_up
-      visit '/restaurants'
-      click_link 'Add a restaurant'
-      fill_in 'Name', with: 'KFC'
-      click_button 'Create Restaurant'
+      create_restaurant
       expect(page).to have_content 'KFC'
       expect(current_path).to eq '/restaurants'
     end
@@ -59,12 +56,8 @@ feature 'restaurants' do
 
     scenario 'let a user edit a restaurant they created' do
       sign_up
+      create_restaurant(name: 'McDonalds')
       visit '/restaurants'
-      click_link 'Add a restaurant'
-      fill_in 'Name', with: 'McDonalds'
-      click_button 'Create Restaurant'
-      visit '/restaurants'
-      expect(page).to have_content('McDonalds')
       click_link 'Edit McDonalds'
       fill_in 'Name', with: 'MaccyD'
       click_button 'Update Restaurant'
@@ -74,10 +67,7 @@ feature 'restaurants' do
 
     scenario 'let a user edit a restaurant only if they created it' do
       sign_up
-      visit '/restaurants'
-      click_link 'Add a restaurant'
-      fill_in 'Name', with: 'Burger King'
-      click_button 'Create Restaurant'
+      create_restaurant(name: 'Burger King')
       click_link 'Sign out'
       sign_up(email: 'different@user.com')
       visit '/restaurants'
@@ -91,10 +81,7 @@ feature 'restaurants' do
 
     scenario 'can be deleted by a user who created the restaurant' do
       sign_up
-      visit '/restaurants'
-      click_link 'Add a restaurant'
-      fill_in 'Name', with: 'Burger King'
-      click_button 'Create Restaurant'
+      create_restaurant(name: 'Burger King')
       click_link 'Sign out'
       sign_up(email: 'different@user.com')
       visit '/restaurants'
@@ -110,10 +97,7 @@ feature 'restaurants' do
 
     scenario 'restaurants are removed if associated user is deleted' do
       sign_up
-      visit '/restaurants'
-      click_link 'Add a restaurant'
-      fill_in 'Name', with: 'Burger King'
-      click_button 'Create Restaurant'
+      create_restaurant(name: 'Burger King')
       User.first.destroy
       expect(Restaurant.last.name).not_to eq('Burger King')
       expect(Restaurant.last.name).to eq('KFC')
@@ -123,10 +107,7 @@ feature 'restaurants' do
   context 'an invalid restaurant' do
     it 'does not let you submit a name that is too short' do
       sign_up
-      visit '/restaurants'
-      click_link 'Add a restaurant'
-      fill_in 'Name', with: 'kf'
-      click_button 'Create Restaurant'
+      create_restaurant(name: 'kf')
       expect(page).not_to have_css 'h2', text: 'kf'
       expect(page).to have_content 'error'
     end

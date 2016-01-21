@@ -3,10 +3,7 @@ require 'rails_helper'
 feature 'reviews' do
   before do
     sign_up
-    visit '/restaurants'
-    click_link 'Add a restaurant'
-    fill_in 'Name', with: 'KFC'
-    click_button 'Create Restaurant'
+    create_restaurant
   end
 
   context 'leaving a review' do
