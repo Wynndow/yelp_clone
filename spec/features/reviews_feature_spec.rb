@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'rails-helper' do
+feature 'reviews' do
   before do
     sign_up
     visit '/restaurants'
@@ -20,19 +20,19 @@ feature 'rails-helper' do
       expect(page).to have_content('so so')
     end
 
-    # scenario 'only allows one review per restaurant per user' do
-    #   visit '/restaurants'
-    #   click_link 'Review KFC'
-    #   fill_in "Thoughts", with: "so so"
-    #   select '3', from: 'Rating'
-    #   click_button 'Leave Review'
-    #   visit '/restaurants'
-    #   click_link 'Review KFC'
-    #   fill_in "Thoughts", with: "dead good"
-    #   select '5', from: 'Rating'
-    #   click_button 'Leave Review'
-    #
-    # end
+    scenario 'only allows one review per restaurant per user' do
+      visit '/restaurants'
+      click_link 'Review KFC'
+      fill_in "Thoughts", with: "so so"
+      select '3', from: 'Rating'
+      click_button 'Leave Review'
+      visit '/restaurants'
+      click_link 'Review KFC'
+      fill_in "Thoughts", with: "so so"
+      select '3', from: 'Rating'
+      click_button 'Leave Review'
+      expect(page).to have_content("Sorry, you have already left a review for that restaurant.")
+    end
   end
 
   context 'deleting a review' do
