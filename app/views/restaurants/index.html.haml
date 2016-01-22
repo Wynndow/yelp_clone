@@ -18,6 +18,8 @@
               %strong= review.rating
               \/5
               %h5 Left #{ time_created(review) }
+              %h5= link_to 'Endorse review', review_endorsements_path(review), method: :post
+              %p= pluralize review.endorsements.count, 'endorsement'
               = link_to 'Delete review', review_path(review), method: :delete
       - else
         %p No reviews

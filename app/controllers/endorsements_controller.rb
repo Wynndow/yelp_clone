@@ -5,5 +5,5 @@ class EndorsementsController < ApplicationController
     @review.endorsements.create
     redirect_to restaurants_path
   end
-  
+
 end
