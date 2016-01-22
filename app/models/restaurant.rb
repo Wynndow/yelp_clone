@@ -3,8 +3,10 @@ class Restaurant < ActiveRecord::Base
   has_many :reviews,
     -> { extending WithUserAssociationExtension },
     dependent: :destroy
-
   belongs_to :user
+  
+  has_attached_file :image, styles: { medium: "300x300", thumb: "100 x 100"}, default_url: "/images/:style/missing.png"
+  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 
   def build_review(attributes = {}, user)
     review = reviews.build(attributes)
@@ -16,4 +18,5 @@ class Restaurant < ActiveRecord::Base
     return 'N/A' if reviews.none?
     reviews.average(:rating).to_f.round(1)
   end
+
 end
