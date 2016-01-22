@@ -14,12 +14,13 @@
         %ul
           - restaurant.reviews.each do |review|
             %li
-              = review.thoughts
-              %strong= review.rating
-              \/5
+              #{review.thoughts}
+              %strong #{review.rating}/5
               %h5 Left #{ time_created(review) }
-              %h5= link_to 'Endorse review', review_endorsements_path(review), method: :post
-              %p= pluralize review.endorsements.count, 'endorsement'
+              = link_to "Endorse", review_endorsements_path(review), class: 'endorsements-link'
+              %span.endorsements_count= review.endorsements.count
+              = 'endorsement'.pluralize review.endorsements.count
+              %br
               = link_to 'Delete review', review_path(review), method: :delete
       - else
         %p No reviews
