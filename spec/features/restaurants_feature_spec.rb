@@ -36,6 +36,15 @@ feature 'restaurants' do
       click_link('Add a restaurant')
       expect(page).to have_content('Log in')
     end
+
+    scenario 'can upload an image' do
+      sign_up
+      click_link('Add a restaurant')
+      fill_in 'Name', with: 'Hawksmoor'
+      page.attach_file 'restaurant[image]', './spec/support/hawksmoor.png'
+      click_button "Create Restaurant"
+    end
+
   end
 
   context 'viewing restaurants' do

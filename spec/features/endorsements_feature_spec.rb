@@ -12,11 +12,4 @@ feature 'endorsing reviews' do
     expect(page).to have_content('1 endorsement')
   end
 
-  scenario 'the endorsement count correltes to the number of times the link is clicked', js: true do
-    visit('/restaurants')
-    click_link 'Endorse'
-    click_link 'Endorse'
-    click_link 'Endorse'
-    expect(page).to have_content('3 endorsements')
-  end
 end
