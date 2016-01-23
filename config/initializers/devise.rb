@@ -239,7 +239,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
 
-  config.omniauth :facebook, Rails.application.secrets.facebook_app_id, Rails.application.secrets.facebook_app_secret #callback_url: "http://localhost:3000"#, scope: 'user,public_repo'
+  config.omniauth :facebook, 539241252918690, ENV["YELP_FACEBOOK_APP_SECRET"] #callback_url: "http://localhost:3000"#, scope: 'user,public_repo'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
